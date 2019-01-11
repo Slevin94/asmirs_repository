@@ -36,8 +36,7 @@ try {
             # es werden hier variablen mit den namen option 1-n erstellt. Diese werden mit den optionsnamen gefüllt.
             # echo $$whatever gibt $option1-n aus. $whatever gibt option1-n aus.
             $whatever = "option{$i}";
-            $$whatever = $row["option_name"];
-            #
+            $$whatever = $row["id"];
             $class = "checkbox";
             ?>
             <!-- name enthält die ID der frage selbst. id wird mit optionN deklariert. D.h otpion1, option2, ...
@@ -45,18 +44,27 @@ try {
                 radio buttons verpassen.
                 WICHTIG: der name="..." entscheidet ob radio gruppen so funktionieren wie sie gedacht sind.
                 Falls die namen unterschiedlich sind werden radio buttons nicht hier so funktionieren.
+                id="?php echo $whatever ? in <>
+                name="?php echo $row["id"]?" <> fehlen vor " "
             -->
-            <input type="<?php echo $class ?>"  name="<?php echo $row["id"]?>" id="<?php echo $whatever ?>"
+            <form action="vote_result.php" method="post">
+            <input name="<?php echo $whatever ?>" type="<?php echo $class ?>" value="<?php echo $$whatever?>">
+
+            </form>
             <?php
             echo "<br>";
+
         }
+        ?>
+        <form action="vote_result.php" method="post">
+    <input type="submit" name="enter" value="Wahl abgeben">
+    </form>
+        <?php
     } else {
         echo "No Results for your Query";
 }
     ?>
-    <form action="vote_result.php" method="post">
-    <input type="submit" value="Wahl abgeben">
-    </form>
+
     <?php
 }
 catch(PDOException $e)
