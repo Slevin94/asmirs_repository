@@ -16,7 +16,6 @@ try {
     # Display der frage selbst in der aller ersten Zeile
     $die_frage_who = $_SESSION["die_frage"];
     echo "Frage des Tages! : " . $die_frage_who . "<br>" . "<br>";
-
     $con = mysqli_connect("localhost", "$username", "$password", "$dbname");
     # SELECT * bedeutet select alles
     $sql = "SELECT * FROM poll_option WHERE poll_id = '$id_poll_id'";
@@ -24,20 +23,24 @@ try {
     $i = 0;
     $counter = 0;
 
-
+# Die form action MUSS als aller erstes kommen. Wenn form action und checkboxes getrennt vorkommen so kann
+# die nächste page vote_result nicht die checkboxen lesen.
     ?>
     <form action="vote_result.php" method="post">
         <input type="submit" name="enter" value="Wahl abgeben">
+        <a href="vote_press.php?id=<?php echo $id_poll_id;?>">Klicke hier um die Ergebnisse zu sehen</a>
         <?php
+
         if (mysqli_num_rows($result) > 0) {
             # Ausgabe der inhalte in jeder Zeile
             while ($row = mysqli_fetch_assoc($result)) {
+                $_SESSION["poll-id"] = $row["poll_id"];
+
                 $i++;
                 $counter++;
                 echo "<br>";
                 # $row[" name der abfrage tabelle "]
                 echo "Antwortmöglichkeit " . $i . ": " . $row["option_name"];
-
                 # zur referenz https://stackoverflow.com/questions/17135192/php-how-can-i-create-variable-names-within-a-loop
                 # es werden hier variablen mit den namen option 1-n erstellt. Diese werden mit den optionsnamen gefüllt.
                 # echo $$whatever gibt $option1-n aus. $whatever gibt option1-n aus.
@@ -50,18 +53,12 @@ try {
             }
         }
         $_SESSION['max'] = $counter;
-
         ?>
-
     </form>
-
 <?php
 }
-catch(PDOException $e)
-{
+catch(PDOException $e) {
     echo $sql . "<br>" . $e->getMessage();
 }
-
-
-
+$con->close();
 ?>

@@ -57,7 +57,7 @@
         <h4>
             <label>
                 Untertitel: <input type="text" class="bigger_width" name="subtitle"
-                                   placeholder="Dies ist eine Umfrage zu Laageesans Geburtstag!">
+                                   placeholder="Dieses feld macht absolut nix!">
             </label>
         </h4>
 

@@ -85,4 +85,5 @@ catch(PDOException $e)
 $conn = null;
 ?>
 
-    <a href="v_new_vote_page.php">Klicke hier um zur Umfragepage zu kommen</a>
+<a href="v_new_vote_page.php?id=<?php echo $id_poll;?>">Klicke hier um zur Umfragepage zu kommen</a>
+
